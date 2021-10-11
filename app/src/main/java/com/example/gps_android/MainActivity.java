@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.i("on create", "on create");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -32,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
         locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(@NonNull Location location) {
+                Log.i("location change", "location change");
                 updateLocationInfo(location);
             }
 
@@ -68,16 +70,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void startListening() {
+        Log.i("listen", "start listen");
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         }
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull  String[] permissions, @NonNull int[] grantResults) {
+        Log.i("listen", "request permission");
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
+        Log.i("request length", Integer.toString(grantResults.length));
+        Log.i("permission 1", Integer.toString(grantResults[0]));
+        Log.i("permission 2", Integer.toString(PackageManager.PERMISSION_GRANTED));
         if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            Log.i("b4 listen", "b4 listen");
             startListening();
         }
     }
@@ -93,7 +101,6 @@ public class MainActivity extends AppCompatActivity {
         lonTextView.setText("Longitude: " + location.getLatitude());
         altTextView.setText("Altitude: " + location.getLatitude());
         accTextView.setText("Accuracy: " + location.getLatitude());
-
 
         Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
 
